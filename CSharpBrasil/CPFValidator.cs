@@ -10,33 +10,50 @@ namespace CSharpBrasil
         public bool IsValid(string cpf)
         {
             bool result = true;
-            if (!string.IsNullOrEmpty(cpf))
+            List<string> errors = GetInvalidValues(cpf);
+            if (errors.Count() > 0)
             {
-                string unformattedCPF = cpf;
-                CheckUnformattedCPF(unformattedCPF);
-                CheckCPFLength(unformattedCPF);
-                string trechoCPF = unformattedCPF.Substring(0, 9);
-
-                int digito1 = GetDigitoVerificador(trechoCPF);
-                int digito2 = GetDigitoVerificador(trechoCPF + digito1.ToString());
-
-                result = unformattedCPF == trechoCPF + digito1.ToString() + digito2.ToString();
+                throw new InvalidStateException(errors);
             }
             return result;
         }
 
-        private void CheckUnformattedCPF(string unformattedCPF)
+        private List<string> GetInvalidValues(string cpf)
+        {
+            List<string> errors = new List<string>();
+            if (!string.IsNullOrEmpty(cpf))
+            {
+                string unformattedCPF = cpf;
+                if (!CheckUnformattedCPF(unformattedCPF))
+                    errors.Add(CPFError.InvalidDigits);
+                else
+                {
+                    if (!CheckCPFLength(unformattedCPF))
+                        errors.Add(CPFError.InvalidDigits);
+
+                    string trechoCPF = unformattedCPF.Substring(0, 9);
+
+                    int digito1 = GetDigitoVerificador(trechoCPF);
+                    int digito2 = GetDigitoVerificador(trechoCPF + digito1.ToString());
+
+                    if (unformattedCPF != trechoCPF + digito1.ToString() + digito2.ToString())
+                        errors.Add(CPFError.InvalidCheckDigits);
+                }
+            }
+
+            return errors;
+        }
+
+        private bool CheckUnformattedCPF(string unformattedCPF)
         {
             string unformattedCPFPattern = @"^\d{11}$";
             Regex regex = new Regex(unformattedCPFPattern);
-            if (!regex.IsMatch(unformattedCPF))
-                throw new CPFInvalidDigits();
+            return regex.IsMatch(unformattedCPF);
         }
 
-        private static void CheckCPFLength(string cpf)
+        private static bool CheckCPFLength(string cpf)
         {
-            if (cpf.Length < 11)
-                throw new CPFInvalidDigits();
+            return cpf.Length == 11;
         }
 
         private int GetDigitoVerificador(string trechoCPF)

@@ -37,24 +37,53 @@ namespace CSharpBrasil.Core.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CPFInvalidDigits))]
         public void ShouldNotValidateCPFWithLessDigitsThanAllowed()
         {
-            cpfValidator.IsValid("1234567890");
+            try
+            {
+                cpfValidator.IsValid("1234567890");
+                Assert.Fail();
+            }
+            catch (InvalidStateException e)
+            {
+                AssertMessage(e, CPFError.InvalidDigits);
+            }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CPFInvalidDigits))]
         public void ShouldNotValidateCPFWithMoreDigitsThanAlowed()
         {
-            cpfValidator.IsValid("123456789012");
+            try
+            {
+                cpfValidator.IsValid("123456789012");
+                Assert.Fail();
+            }
+            catch (InvalidStateException e)
+            {
+                AssertMessage(e, CPFError.InvalidDigits);
+            }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CPFInvalidDigits))]
         public void ShouldNotValidateCPFWithInvalidCharacter()
         {
-            cpfValidator.IsValid("1111111a111");
+            try
+            {
+                cpfValidator.IsValid("1111111a111");
+                Assert.Fail();
+            }
+            catch (InvalidStateException e)
+            {
+                Assert.IsTrue(e.GetErrors().Count == 1);
+                AssertMessage(e, CPFError.InvalidDigits);
+            }
+        }
+
+        private void AssertMessage(InvalidStateException invalidStateException
+            , String expected)
+        {
+            Assert.IsTrue(invalidStateException
+                .GetErrors().Contains(expected));
         }
     }
 }
