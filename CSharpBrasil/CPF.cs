@@ -6,48 +6,59 @@ namespace CSharpBrasil
 {
     public class CPF
     {
-        private const int ONZE = 11;
-        private const int NOVE = 9;
-
         public static bool IsValid(string cpf)
         {
-            string trechoCPF =
-                cpf.Substring(0, 9);
+            string trechoCPF = cpf.Substring(0, 9);
 
-            int digito1 = GetDigito(trechoCPF);
-            int digito2 = GetDigito(trechoCPF + digito1.ToString());
+            int digito1 = GetDigitoVerificador(trechoCPF);
+            int digito2 = GetDigitoVerificador(trechoCPF + digito1.ToString());
 
             return cpf == trechoCPF + digito1.ToString() + digito2.ToString();
         }
 
-        private static int GetDigito(string trechoCPF)
+        private static int GetDigitoVerificador(string trechoCPF)
         {
-            List<int> digitos =
-                trechoCPF
-                .ToCharArray()
-                .Select(c => int.Parse(c.ToString()))
-                .ToList();
+            int result = 0;
+            List<int> digitos = GetDigitos(trechoCPF);
+            int soma = GetSoma(trechoCPF, digitos, GetMultiplicadores(digitos));
+            int subtracao = GetSubtracao(soma);
 
-            List<int> multiplicadores =
-                Enumerable
-                .Range(2, digitos.Count())
-                .OrderByDescending(m => m)
-                .ToList();
+            if (subtracao > 9)
+                result = 0;
+            else
+                result = subtracao;
+            return result;
+        }
 
+        private static int GetSubtracao(int soma)
+        {
+            int resto = soma % 11;
+            int subtracao = 11 - resto;
+            return subtracao;
+        }
+
+        private static int GetSoma(string trechoCPF, List<int> digitos, List<int> multiplicadores)
+        {
             int soma = 0;
             for (int i = 0; i < trechoCPF.Count(); i++)
                 soma += digitos[i] * multiplicadores[i];
+            return soma;
+        }
 
-            int resto = soma % ONZE;
+        private static List<int> GetMultiplicadores(List<int> digitos)
+        {
+            return Enumerable
+                .Range(2, digitos.Count())
+                .OrderByDescending(m => m)
+                .ToList();
+        }
 
-            int subtracao = ONZE - resto;
-
-            int digito = 0;
-            if (subtracao > NOVE)
-                digito = 0;
-            else
-                digito = subtracao;
-            return digito;
+        private static List<int> GetDigitos(string trechoCPF)
+        {
+            return trechoCPF
+                .ToCharArray()
+                .Select(c => int.Parse(c.ToString()))
+                .ToList();
         }
     }
 }

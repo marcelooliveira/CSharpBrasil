@@ -1,7 +1,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CSharpBrasil.Test
+namespace CSharpBrasil.Core.Test
 {
     [TestClass]
     public class CPFTest
