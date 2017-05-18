@@ -7,6 +7,19 @@ namespace CSharpBrasil
 {
     public class CPFValidator
     {
+        private const string FORMATED = "(\\d{3})[.](\\d{3})[.](\\d{3})-(\\d{2})";
+        private const string UNFORMATED = "(\\d{3})(\\d{3})(\\d{3})(\\d{2})";
+
+        private readonly bool _isFormatted;
+        public CPFValidator()
+        {
+        }
+
+        public CPFValidator(bool isFormatted)
+        {
+            _isFormatted = isFormatted;
+        }
+
         public bool IsValid(string cpf)
         {
             bool result = true;
@@ -24,6 +37,15 @@ namespace CSharpBrasil
             if (!string.IsNullOrEmpty(cpf))
             {
                 string unformattedCPF = cpf;
+                if (_isFormatted)
+                {
+                    if (!CheckFormattedCPF(cpf))
+                        errors.Add(CPFError.InvalidFormat);
+
+                    return errors;
+                }
+                unformattedCPF = UnformatCPF(cpf);
+
                 if (!CheckUnformattedCPF(unformattedCPF))
                     errors.Add(CPFError.InvalidDigits);
                 else
@@ -44,11 +66,21 @@ namespace CSharpBrasil
             return errors;
         }
 
+        private bool CheckFormattedCPF(string formattedCPF)
+        {
+            Regex regex = new Regex(FORMATED);
+            return regex.IsMatch(formattedCPF);
+        }
+
         private bool CheckUnformattedCPF(string unformattedCPF)
         {
-            string unformattedCPFPattern = @"^\d{11}$";
-            Regex regex = new Regex(unformattedCPFPattern);
+            Regex regex = new Regex(UNFORMATED);
             return regex.IsMatch(unformattedCPF);
+        }
+
+        private string UnformatCPF(string cpf)
+        {
+            return cpf.Replace(".", "").Replace("-", "");
         }
 
         private static bool CheckCPFLength(string cpf)

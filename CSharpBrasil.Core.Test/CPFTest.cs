@@ -79,6 +79,62 @@ namespace CSharpBrasil.Core.Test
             }
         }
 
+        [TestMethod]
+        public void ShouldNotValidateCPFCheckDigitsWithFirstCheckDigitWrong()
+        {
+            // VALID CPF = 248.438.034-80
+            try
+            {
+                cpfValidator.IsValid("24843803470");
+                Assert.Fail();
+            }
+            catch (InvalidStateException e)
+            {
+                Assert.IsTrue(e.GetErrors().Count == 1);
+                AssertMessage(e, CPFError.InvalidCheckDigits);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldNotValidateCPFCheckDigitsWithSecondCheckDigitWrong()
+        {
+            // VALID CPF = 099.075.865-60
+            try
+            {
+                cpfValidator.IsValid("09907586561");
+                Assert.Fail();
+            }
+            catch (InvalidStateException e)
+            {
+                Assert.IsTrue(e.GetErrors().Count == 1);
+                AssertMessage(e, CPFError.InvalidCheckDigits);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldValidateValidFormattedCPF()
+        {
+            CPFValidator cpfValidator = new CPFValidator(true);
+            cpfValidator.IsValid("356.296.825-63");
+        }
+
+        [TestMethod]
+        public void ShouldNotValidateValidUnformattedCPF()
+        {
+            CPFValidator validator = new CPFValidator(true);
+            // VALID CPF = 332.375.322-40
+            try
+            {
+                validator.IsValid("33237532240");
+                Assert.Fail();
+            }
+            catch (InvalidStateException e)
+            {
+                Assert.IsTrue(e.GetErrors().Count == 1);
+                AssertMessage(e, CPFError.InvalidFormat);
+            }
+        }
+
         private void AssertMessage(InvalidStateException invalidStateException
             , String expected)
         {
