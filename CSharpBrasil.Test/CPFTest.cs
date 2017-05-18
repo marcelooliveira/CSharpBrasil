@@ -17,5 +17,11 @@ namespace CSharpBrasil.Test
         {
             Assert.AreEqual(true, CPF.IsValid("25588580842"));
         }
+
+        [TestMethod]
+        public void Test_25588580823_IsNotValid()
+        {
+            Assert.AreNotEqual(true, CPF.IsValid("25588580823"));
+        }
     }
 }
