@@ -104,9 +104,7 @@ namespace CSharpBrasil
 
         private int GetSubtracao(int soma)
         {
-            int resto = soma % 11;
-            int subtracao = 11 - resto;
-            return subtracao;
+            return 11 - (soma % 11);
         }
 
         private int GetSoma(string trechoCPF, List<int> digitos, List<int> multiplicadores)
