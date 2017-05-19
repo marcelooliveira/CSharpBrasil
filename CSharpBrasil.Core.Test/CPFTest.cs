@@ -16,7 +16,7 @@ namespace CSharpBrasil.Core.Test
         }
 
         [TestMethod]
-        public void ShouldValidateValidCPF()
+        public void DeveValidarCPFValido()
         {
             cpfValidator.IsValid("11144477735");
             cpfValidator.IsValid("88641577947");
@@ -25,19 +25,19 @@ namespace CSharpBrasil.Core.Test
         }
 
         [TestMethod]
-        public void ShouldValidateNullCPF()
+        public void DeveValidarCPFNulo()
         {
             cpfValidator.IsValid(null);
         }
 
         [TestMethod]
-        public void ShouldValidateCPFWithLeadingZeros()
+        public void DeveValidarCPFComZerosIniciais()
         {
             cpfValidator.IsValid("01169538452");
         }
 
         [TestMethod]
-        public void ShouldNotValidateCPFWithLessDigitsThanAllowed()
+        public void NaoDeveValidarCPFComMenosDigitosQueOExigido()
         {
             try
             {
@@ -51,7 +51,7 @@ namespace CSharpBrasil.Core.Test
         }
 
         [TestMethod]
-        public void ShouldNotValidateCPFWithMoreDigitsThanAlowed()
+        public void NaoDeveValidarCPFComMaisDigitosQueOExigido()
         {
             try
             {
@@ -65,7 +65,7 @@ namespace CSharpBrasil.Core.Test
         }
 
         [TestMethod]
-        public void ShouldNotValidateCPFWithInvalidCharacter()
+        public void NaoDeveValidarCPFComCaracterInvalido()
         {
             try
             {
@@ -80,7 +80,7 @@ namespace CSharpBrasil.Core.Test
         }
 
         [TestMethod]
-        public void ShouldNotValidateCPFCheckDigitsWithFirstCheckDigitWrong()
+        public void NaoDeveValidarDVComPrimeiroDVErrado()
         {
             // VALID CPF = 248.438.034-80
             try
@@ -96,7 +96,7 @@ namespace CSharpBrasil.Core.Test
         }
 
         [TestMethod]
-        public void ShouldNotValidateCPFCheckDigitsWithSecondCheckDigitWrong()
+        public void NaoDeveValidarDVComSegundoDVErrado()
         {
             // VALID CPF = 099.075.865-60
             try
@@ -112,14 +112,14 @@ namespace CSharpBrasil.Core.Test
         }
 
         [TestMethod]
-        public void ShouldValidateValidFormattedCPF()
+        public void DeveValidarCPFValidoFormatado()
         {
             CPFValidator cpfValidator = new CPFValidator(true);
             cpfValidator.IsValid("356.296.825-63");
         }
 
         [TestMethod]
-        public void ShouldNotValidateValidUnformattedCPF()
+        public void NaoDeveValidarCPFValidoNaoFormatado()
         {
             CPFValidator validator = new CPFValidator(true);
             // VALID CPF = 332.375.322-40
