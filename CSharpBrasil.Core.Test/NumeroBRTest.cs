@@ -85,5 +85,40 @@ namespace CSharpBrasil.Core.Test
             string extenso = numeroBR.Extenso(39);
             Assert.AreEqual("trinta e nove", extenso);
         }
+
+        [TestMethod]
+        public void Test100()
+        {
+            string extenso = numeroBR.Extenso(100);
+            Assert.AreEqual("cem", extenso);
+        }
+
+        [TestMethod]
+        public void Test200()
+        {
+            string extenso = numeroBR.Extenso(200);
+            Assert.AreEqual("duzentos", extenso);
+        }
+
+        [TestMethod]
+        public void Test300()
+        {
+            string extenso = numeroBR.Extenso(300);
+            Assert.AreEqual("trezentos", extenso);
+        }
+
+        [TestMethod]
+        public void Test900()
+        {
+            string extenso = numeroBR.Extenso(900);
+            Assert.AreEqual("novecentos", extenso);
+        }
+
+        [TestMethod]
+        public void Test234()
+        {
+            string extenso = numeroBR.Extenso(234);
+            Assert.AreEqual("duzentos e trinta e quatro", extenso);
+        }
     }
 }

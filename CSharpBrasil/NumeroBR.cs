@@ -41,6 +41,20 @@ namespace CSharpBrasil
                         , Extenso(unidade));
                 }
             }
+            else if (numero > 100 && numero <= 999)
+            {
+                if (numero % 100 == 0)
+                {
+                    return resourceManager.GetString(string.Format("Extenso{0:000}", numero));
+                }
+                else
+                {
+                    var dezena = numero % 100;
+                    return string.Format("{0:000} e {1:000}"
+                        , resourceManager.GetString(string.Format("Extenso{0:000}", (numero / 100) * 100))
+                        , Extenso(dezena));
+                }
+            }
             throw new NotImplementedException();
         }
     }
