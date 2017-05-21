@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharpBrasil", "CSharpBrasi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharpBrasil.Core.Test", "..\CSharpBrasil.Core.Test\CSharpBrasil.Core.Test.csproj", "{001BA2B7-3962-4626-AD25-07776A3F9A14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpBrasil.Test", "..\CSharpBrasil.Test\CSharpBrasil.Test.csproj", "{13E44B57-43FD-4349-9AD6-E4AE598D6AA9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{001BA2B7-3962-4626-AD25-07776A3F9A14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{001BA2B7-3962-4626-AD25-07776A3F9A14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{001BA2B7-3962-4626-AD25-07776A3F9A14}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13E44B57-43FD-4349-9AD6-E4AE598D6AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13E44B57-43FD-4349-9AD6-E4AE598D6AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13E44B57-43FD-4349-9AD6-E4AE598D6AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13E44B57-43FD-4349-9AD6-E4AE598D6AA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
