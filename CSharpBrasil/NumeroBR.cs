@@ -45,10 +45,11 @@ namespace CSharpBrasil
             else
             {
                 string estaCasaPorExtenso = string.Empty;
-                if (numero == 100)
+                int estaCasa = (int)((numero / potenciaDe10) * potenciaDe10);
+                if (estaCasa == 100)
                     estaCasaPorExtenso = resourceManager.GetString("Extenso100mais");
                 else
-                    estaCasaPorExtenso = resourceManager.GetString(string.Format("Extenso{0:000}", (numero / potenciaDe10) * potenciaDe10));
+                    estaCasaPorExtenso = resourceManager.GetString(string.Format("Extenso{0:000}", estaCasa));
 
                 var proximasCasas = numero % potenciaDe10;
                 return string.Format("{0:000} e {1:000}"
