@@ -32,15 +32,16 @@ namespace CSharpBrasil
                     switch (casa)
                     {
                         case 1:
-                            digito = new DigitoUnidade(numero % 10, casa++, digito);
+                            digito = new DigitoUnidade(numero % 10, casa, digito);
                             break;
                         case 2:
-                            digito = new DigitoDezena(numero % 10, casa++, digito);
+                            digito = new DigitoDezena(numero % 10, casa, digito);
                             break;
                         case 3:
-                            digito = new DigitoCentena(numero % 10, casa++, digito);
+                            digito = new DigitoCentena(numero % 10, casa, digito);
                             break;
                     }
+                    casa++;
                     numero /= 10;
                 } while (numero > 0);
 
