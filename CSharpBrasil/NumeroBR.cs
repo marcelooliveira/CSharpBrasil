@@ -16,6 +16,11 @@ namespace CSharpBrasil
                          System.Reflection.Assembly.Load(new System.Reflection.AssemblyName("CSharpBrasil")));
         }
 
+        public string Extenso(double numero)
+        {
+            return Extenso(numero);
+        }
+
         public string Extenso(int numero)
         {
             int posicao = 1;
@@ -142,15 +147,18 @@ namespace CSharpBrasil
                         .GetString(string.Format("Extenso1e{0}{1}", (_posicao - 1) * 3, singularPlural));
 
                 int valorGrupoFilho = _grupoFilho.ValorTotal();
+                string separador = 
+                    _grupoFilho.ValorDosFilhos() == 0 ? " e" : ",";
 
                 if (valorGrupoFilho == 0)
                     return string.Format("{0} {1}",
                     _digito.Extenso(),
                     nomeGrupo);
                 else
-                    return string.Format("{0} {1}, {2}",
+                    return string.Format("{0} {1}{2} {3}",
                     _digito.Extenso(),
                     nomeGrupo,
+                    separador,
                     _grupoFilho.Extenso());
             }
         }

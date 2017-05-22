@@ -113,5 +113,33 @@ namespace CSharpBrasil.Core.Test
             string extenso = numeroBR.Extenso(1000);
             Assert.AreEqual("um mil", extenso);
         }
+
+        [TestMethod]
+        public void shouldTransform1001InWords()
+        {
+            string extenso = numeroBR.Extenso(1001);
+            Assert.AreEqual("um mil e um", extenso);
+        }
+
+        [TestMethod]
+        public void shouldTransformThousandInWordsUsingAnd()
+        {
+            string extenso = numeroBR.Extenso(1031);
+            Assert.AreEqual("um mil e trinta e um", extenso);
+        }
+
+        [TestMethod]
+        public void shouldTransformAMillionIntoNumberInWordsUsingSingular()
+        {
+            string extenso = numeroBR.Extenso(1000000);
+            Assert.AreEqual("um milhão", extenso);
+        }
+
+        //[TestMethod]
+        //public void shouldTransformAMillionIntoNumberInWordsUsingAnd()
+        //{
+        //    string extenso = numeroBR.Extenso(1000150.99);
+        //    Assert.AreEqual("um milhão e cento e cinquenta e um", extenso);
+        //}
     }
 }
