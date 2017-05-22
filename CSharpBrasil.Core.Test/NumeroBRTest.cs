@@ -106,5 +106,12 @@ namespace CSharpBrasil.Core.Test
             string extenso = numeroBR.Extenso(999);
             Assert.AreEqual("novecentos e noventa e nove", extenso);
         }
+
+        [TestMethod]
+        public void shouldTransformThousandInWords()
+        {
+            string extenso = numeroBR.Extenso(1000);
+            Assert.AreEqual("um mil", extenso);
+        }
     }
 }

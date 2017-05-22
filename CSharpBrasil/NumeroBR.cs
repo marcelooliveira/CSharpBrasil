@@ -9,7 +9,6 @@ namespace CSharpBrasil
 {
     public class NumeroBR
     {
-        private const string NUMERO_NEGATIVO = "Número não pode ser negativo";
         private readonly ResourceManager resourceManager;
         public NumeroBR()
         {
@@ -19,34 +18,16 @@ namespace CSharpBrasil
 
         public string Extenso(int numero)
         {
-            if (numero < 0)
+            int posicao = 1;
+            Grupo grupo = null;
+            do
             {
-                throw new ArgumentOutOfRangeException(NUMERO_NEGATIVO);
-            }
-            else
-            {
-                int casa = 1;
-                Digito digito = null;
-                do
-                {
-                    switch (casa)
-                    {
-                        case 1:
-                            digito = new DigitoUnidade(numero % 10, casa, digito);
-                            break;
-                        case 2:
-                            digito = new DigitoDezena(numero % 10, casa, digito);
-                            break;
-                        case 3:
-                            digito = new DigitoCentena(numero % 10, casa, digito);
-                            break;
-                    }
-                    casa++;
-                    numero /= 10;
-                } while (numero > 0);
+                grupo = new Grupo(numero % 1000, posicao, grupo);
+                posicao++;
+                numero /= 1000;
+            } while (numero > 0);
 
-                return digito.Extenso();
-            }
+            return grupo.Extenso();
         }
 
         private string Extenso21_999(int numero)
@@ -79,18 +60,114 @@ namespace CSharpBrasil
         }
     }
 
+    class Grupo
+    {
+        private const string NUMERO_NEGATIVO = "Número não pode ser negativo";
+        private readonly int _numero;
+        protected readonly int _posicao;
+        private readonly Digito _digito;
+        private readonly Grupo _grupoFilho;
+        public Grupo(int numero, int posicao, Grupo grupoFilho)
+        {
+            if (numero < 0)
+            {
+                throw new ArgumentOutOfRangeException(NUMERO_NEGATIVO);
+            }
+            else
+            {
+                _numero = numero;
+                _posicao = posicao;
+                _grupoFilho = grupoFilho;
+                int posicaoDigito = 1;
+                Digito digito = null;
+                do
+                {
+                    switch ((posicaoDigito - 1) % 3)
+                    {
+                        case 0:
+                            digito = new DigitoUnidade(numero % 10, posicaoDigito, digito);
+                            break;
+                        case 1:
+                            digito = new DigitoDezena(numero % 10, posicaoDigito, digito);
+                            break;
+                        case 2:
+                            digito = new DigitoCentena(numero % 10, posicaoDigito, digito);
+                            break;
+                    }
+                    posicaoDigito++;
+                    numero /= 10;
+                } while (numero > 0);
+
+                _digito = digito;
+            }
+        }
+
+        protected int ValorSomenteDoGrupo()
+        {
+            return _digito.ValorTotal();
+        }
+
+        protected int ValorDosFilhos()
+        {
+            if (_grupoFilho == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return _grupoFilho.ValorTotal();
+            }
+        }
+
+        public int ValorTotal()
+        {
+            int result = ValorSomenteDoGrupo();
+            if (_grupoFilho != null)
+                result += _grupoFilho.ValorTotal();
+            return result;
+        }
+
+        public string Extenso()
+        {
+            if (_grupoFilho == null)
+                return _digito.Extenso();
+            else
+            {
+                int valorGrupo = _digito.ValorTotal();
+                string singularPlural = valorGrupo < 2 ? "singular" : "plural";
+                string nomeGrupo =
+                    ResourceManagerHelper
+                        .Instance
+                        .ResourceManager
+                        .GetString(string.Format("Extenso1e{0}{1}", (_posicao - 1) * 3, singularPlural));
+
+                int valorGrupoFilho = _grupoFilho.ValorTotal();
+
+                if (valorGrupoFilho == 0)
+                    return string.Format("{0} {1}",
+                    _digito.Extenso(),
+                    nomeGrupo);
+                else
+                    return string.Format("{0} {1}, {2}",
+                    _digito.Extenso(),
+                    nomeGrupo,
+                    _grupoFilho.Extenso());
+            }
+        }
+    }
+
     abstract class Digito
     {
         protected readonly int _numero;
-        protected readonly int _casa;
+        protected readonly int _posicao;
         protected readonly Digito _digitoFilho;
 
         public int Numero { get { return _numero; } }
 
-        public Digito(int numero, int casa, Digito digitoFilho)
+        public Digito(int numero, int posicao, Digito digitoFilho)
         {
             _numero = numero;
-            _casa = casa;
+            _posicao = posicao;
             _digitoFilho = digitoFilho;
         }
 
@@ -99,15 +176,15 @@ namespace CSharpBrasil
             return ResourceManagerHelper
                 .Instance
                 .ResourceManager
-                .GetString(string.Format("Extenso{0:000}", ValorSemFilho()));
+                .GetString(string.Format("Extenso{0:000}", ValorSomenteDoDigito()));
         }
 
-        protected int ValorSemFilho()
+        protected int ValorSomenteDoDigito()
         {
-            return _numero * (int)Math.Pow(10, _casa - 1);
+            return _numero * (int)Math.Pow(10, _posicao - 1);
         }
 
-        protected int ValorFilhos()
+        protected int ValorDosFilhos()
         {
             if (_digitoFilho == null)
             {
@@ -119,9 +196,9 @@ namespace CSharpBrasil
             }
         }
 
-        protected int ValorTotal()
+        public int ValorTotal()
         {
-            int result = ValorSemFilho();
+            int result = ValorSomenteDoDigito();
             if (_digitoFilho != null)
                 result += _digitoFilho.ValorTotal();
             return result;
@@ -134,16 +211,21 @@ namespace CSharpBrasil
                 .ResourceManager
                 .GetString(string.Format("Extenso{0:000}", numero));
         }
+
+        protected bool Plural
+        {
+            get { return _numero > 1; }
+        }
     }
 
     class DigitoUnidade : Digito
     {
-        public DigitoUnidade(int numero, int casa, Digito digitoFilho) : base(numero, casa, digitoFilho) { }
+        public DigitoUnidade(int numero, int posicao, Digito digitoFilho) : base(numero, posicao, digitoFilho) { }
     }
 
     class DigitoDezena : Digito
     {
-        public DigitoDezena(int numero, int casa, Digito digitoFilho) : base(numero, casa, digitoFilho) { }
+        public DigitoDezena(int numero, int posicao, Digito digitoFilho) : base(numero, posicao, digitoFilho) { }
 
         public override string Extenso()
         {
@@ -153,12 +235,12 @@ namespace CSharpBrasil
             }
             else if (_numero == 1)
             {
-                return base.Extenso(ValorSemFilho() + _digitoFilho.Numero);
+                return base.Extenso(ValorSomenteDoDigito() + _digitoFilho.Numero);
             }
             else
             {
                 if (_digitoFilho.Numero == 0)
-                    return base.Extenso(ValorSemFilho());
+                    return base.Extenso(ValorSomenteDoDigito());
                 else
                     return
                         string.Format("{0} e {1}"
@@ -170,12 +252,12 @@ namespace CSharpBrasil
 
     class DigitoCentena : Digito
     {
-        public DigitoCentena(int numero, int casa, Digito digitoFilho) : base(numero, casa, digitoFilho) { }
+        public DigitoCentena(int numero, int posicao, Digito digitoFilho) : base(numero, posicao, digitoFilho) { }
 
         public override string Extenso()
         {
-            if (ValorFilhos() == 0)
-                return base.Extenso(ValorSemFilho());
+            if (ValorDosFilhos() == 0)
+                return base.Extenso(ValorSomenteDoDigito());
             else
             {
                 string esteDigitoExtenso = string.Empty;
