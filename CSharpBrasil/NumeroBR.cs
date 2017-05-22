@@ -25,37 +25,41 @@ namespace CSharpBrasil
             }
             else if (numero <= 20)
             {
-                return resourceManager.GetString(string.Format("Extenso{0:000}", numero));
+                return Extenso0_20(numero);
             }
-            else if (numero > 20 && numero <= 99)
+            else if (numero > 20 && numero <= 999)
             {
-                if (numero % 10 == 0)
-                {
-                    return resourceManager.GetString(string.Format("Extenso{0:000}", numero));
-                }
-                else
-                {
-                    var unidade = numero % 10;
-                    return string.Format("{0:000} e {1:000}"
-                        , resourceManager.GetString(string.Format("Extenso{0:000}", (numero / 10) * 10))
-                        , Extenso(unidade));
-                }
-            }
-            else if (numero > 100 && numero <= 999)
-            {
-                if (numero % 100 == 0)
-                {
-                    return resourceManager.GetString(string.Format("Extenso{0:000}", numero));
-                }
-                else
-                {
-                    var dezena = numero % 100;
-                    return string.Format("{0:000} e {1:000}"
-                        , resourceManager.GetString(string.Format("Extenso{0:000}", (numero / 100) * 100))
-                        , Extenso(dezena));
-                }
+                return Extenso21_999(numero);
             }
             throw new NotImplementedException();
+        }
+
+        private string Extenso21_999(int numero)
+        {
+            double numeroDigitos = Math.Floor(Math.Log10(numero));
+            int potenciaDe10 = (int)Math.Pow(10, (int)numeroDigitos);
+            if (numero % potenciaDe10 == 0)
+            {
+                return resourceManager.GetString(string.Format("Extenso{0:000}", numero));
+            }
+            else
+            {
+                string estaCasaPorExtenso = string.Empty;
+                if (numero == 100)
+                    estaCasaPorExtenso = resourceManager.GetString("Extenso100mais");
+                else
+                    estaCasaPorExtenso = resourceManager.GetString(string.Format("Extenso{0:000}", (numero / potenciaDe10) * potenciaDe10));
+
+                var proximasCasas = numero % potenciaDe10;
+                return string.Format("{0:000} e {1:000}"
+                    , estaCasaPorExtenso
+                    , Extenso(proximasCasas));
+            }
+        }
+
+        private string Extenso0_20(int numero)
+        {
+            return resourceManager.GetString(string.Format("Extenso{0:000}", numero));
         }
     }
 }

@@ -24,101 +24,59 @@ namespace CSharpBrasil.Core.Test
         }
 
         [TestMethod]
-        public void Test0()
+        public void shouldTransform0InWords()
         {
             string extenso = numeroBR.Extenso(0);
             Assert.AreEqual("zero", extenso);
         }
 
         [TestMethod]
-        public void Test1()
+        public void shouldTransform1InWords()
         {
             string extenso = numeroBR.Extenso(1);
             Assert.AreEqual("um", extenso);
         }
 
         [TestMethod]
-        public void Test9()
+        public void shouldTransform2InWords()
         {
-            string extenso = numeroBR.Extenso(9);
-            Assert.AreEqual("nove", extenso);
+            string extenso = numeroBR.Extenso(2);
+            Assert.AreEqual("dois", extenso);
         }
 
         [TestMethod]
-        public void Test10()
+        public void shouldTransform14InWords()
         {
-            string extenso = numeroBR.Extenso(10);
-            Assert.AreEqual("dez", extenso);
+            string extenso = numeroBR.Extenso(14);
+            Assert.AreEqual("quatorze", extenso);
         }
 
         [TestMethod]
-        public void Test17()
+        public void shouldTransform53InWordsUsingAnd()
         {
-            string extenso = numeroBR.Extenso(17);
-            Assert.AreEqual("dezessete", extenso);
+            string extenso = numeroBR.Extenso(53);
+            Assert.AreEqual("cinquenta e três", extenso);
         }
 
         [TestMethod]
-        public void Test20()
+        public void shouldTransform99InWordsUsingAnd()
         {
-            string extenso = numeroBR.Extenso(20);
-            Assert.AreEqual("vinte", extenso);
+            string extenso = numeroBR.Extenso(99);
+            Assert.AreEqual("noventa e nove", extenso);
         }
 
         [TestMethod]
-        public void Test30()
-        {
-            string extenso = numeroBR.Extenso(30);
-            Assert.AreEqual("trinta", extenso);
-        }
-
-        [TestMethod]
-        public void Test90()
-        {
-            string extenso = numeroBR.Extenso(90);
-            Assert.AreEqual("noventa", extenso);
-        }
-
-        [TestMethod]
-        public void Test39()
-        {
-            string extenso = numeroBR.Extenso(39);
-            Assert.AreEqual("trinta e nove", extenso);
-        }
-
-        [TestMethod]
-        public void Test100()
+        public void shouldTransformOneHundredInWords()
         {
             string extenso = numeroBR.Extenso(100);
             Assert.AreEqual("cem", extenso);
         }
 
         [TestMethod]
-        public void Test200()
+        public void shouldTransform101InWordsUsingAnd()
         {
-            string extenso = numeroBR.Extenso(200);
-            Assert.AreEqual("duzentos", extenso);
-        }
-
-        [TestMethod]
-        public void Test300()
-        {
-            string extenso = numeroBR.Extenso(300);
-            Assert.AreEqual("trezentos", extenso);
-        }
-
-        [TestMethod]
-        public void Test900()
-        {
-            string extenso = numeroBR.Extenso(900);
-            Assert.AreEqual("novecentos", extenso);
-        }
-
-        [TestMethod]
-        public void Test234()
-        {
-            string extenso = numeroBR.Extenso(234);
-            Assert.AreEqual("duzentos e trinta e quatro", extenso);
+            string extenso = numeroBR.Extenso(101);
+            Assert.AreEqual("cento e um", extenso);
         }
     }
 }
