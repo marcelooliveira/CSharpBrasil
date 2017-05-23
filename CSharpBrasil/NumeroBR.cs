@@ -18,7 +18,7 @@ namespace CSharpBrasil
 
         public string Extenso(double numero)
         {
-            return Extenso(numero);
+            return Extenso((int)Math.Round(numero));
         }
 
         public string Extenso(int numero)
@@ -69,9 +69,12 @@ namespace CSharpBrasil
     {
         private const string NUMERO_NEGATIVO = "Número não pode ser negativo";
         private readonly int _numero;
-        protected readonly int _posicao;
+        private readonly int _posicao;
         private readonly Digito _digito;
         private readonly Grupo _grupoFilho;
+
+        public int Posicao => _posicao;
+
         public Grupo(int numero, int posicao, Grupo grupoFilho)
         {
             if (numero < 0)
@@ -132,10 +135,26 @@ namespace CSharpBrasil
             return result;
         }
 
+        public Grupo PrimeiroGrupoComValor()
+        {
+            Grupo result = null;
+
+            if (ValorSomenteDoGrupo() > 0)
+                result = this;
+
+            if (_grupoFilho != null)
+                result = _grupoFilho.PrimeiroGrupoComValor();
+            return result;
+        }
+
         public string Extenso()
         {
             if (_grupoFilho == null)
                 return _digito.Extenso();
+            else if (ValorSomenteDoGrupo() == 0)
+            {
+                return _grupoFilho.Extenso();
+            }
             else
             {
                 int valorGrupo = _digito.ValorTotal();
@@ -147,19 +166,23 @@ namespace CSharpBrasil
                         .GetString(string.Format("Extenso1e{0}{1}", (_posicao - 1) * 3, singularPlural));
 
                 int valorGrupoFilho = _grupoFilho.ValorTotal();
-                string separador = 
-                    _grupoFilho.ValorDosFilhos() == 0 ? " e" : ",";
 
                 if (valorGrupoFilho == 0)
+                {
                     return string.Format("{0} {1}",
                     _digito.Extenso(),
                     nomeGrupo);
+                }
                 else
+                {
+                    Grupo proximoGrupoComValor = _grupoFilho.PrimeiroGrupoComValor();
+                    string separador = proximoGrupoComValor.Posicao == 1 ? " e" : ",";
                     return string.Format("{0} {1}{2} {3}",
                     _digito.Extenso(),
                     nomeGrupo,
                     separador,
                     _grupoFilho.Extenso());
+                }
             }
         }
     }
