@@ -141,5 +141,54 @@ namespace CSharpBrasil.Core.Test
             string extenso = numeroBR.Extenso(1000150.99);
             Assert.AreEqual("um milhão e cento e cinquenta e um", extenso);
         }
+
+        [TestMethod]
+        public void shouldTransformAMillionAndThousandIntoNumberInWordsUsingAnd()
+        {
+            string extenso = numeroBR.Extenso(1023850);
+            Assert.AreEqual("um milhão, vinte e três mil e oitocentos e cinquenta", extenso);
+        }
+
+        [TestMethod]
+        public void shouldTransformTwoMillionUsingPlural()
+        {
+            string extenso = numeroBR.Extenso(2e6);
+            Assert.AreEqual("dois milhões", extenso);
+        }
+
+        [TestMethod]
+        public void shouldTransformANumberInWordsUsingFraction()
+        {
+            string extenso = numeroBR.Extenso(222);
+            Assert.AreEqual("duzentos e vinte e dois", extenso);
+        }
+
+        //[TestMethod]
+        //public void shouldTransform1E21()
+        //{
+        //    string extenso = numeroBR.Extenso(1E21);
+        //    Assert.AreEqual("um sextilhão", extenso);
+        //}
+
+        //[TestMethod]
+        //public void shouldTransform2E21()
+        //{
+        //    string extenso = numeroBR.Extenso(2E21);
+        //    Assert.AreEqual("dois sextilhões", extenso);
+        //}
+
+        //[TestMethod]
+        //public void shouldTransform1E24()
+        //{
+        //    string extenso = numeroBR.Extenso(1E24);
+        //    Assert.AreEqual("um septilhão", extenso);
+        //}
+
+        //[TestMethod]
+        //public void shouldTransform2E24()
+        //{
+        //    string extenso = numeroBR.Extenso(2E24);
+        //    Assert.AreEqual("dois septilhões", extenso);
+        //}
     }
 }
