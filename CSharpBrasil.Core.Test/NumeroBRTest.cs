@@ -10,7 +10,7 @@ namespace CSharpBrasil.Core.Test
     {
         NumeroBR numeroBR;
 
-        [TestInitialize]
+        [TestInitialize]    
         public void Initialize()
         {
             numeroBR = new NumeroBR();
@@ -175,104 +175,6 @@ namespace CSharpBrasil.Core.Test
         {
             string extenso = numeroBR.Extenso(2E21);
             Assert.AreEqual("dois sextilhões", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform1E24()
-        {
-            string extenso = numeroBR.Extenso(1E24);
-            Assert.AreEqual("um septilhão", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform2E24()
-        {
-            string extenso = numeroBR.Extenso(2E24);
-            Assert.AreEqual("dois septilhões", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform1E27()
-        {
-            string extenso = numeroBR.Extenso(1E27);
-            Assert.AreEqual("um octilhão", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform2E27()
-        {
-            string extenso = numeroBR.Extenso(2E27);
-            Assert.AreEqual("dois octilhões", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform1E30()
-        {
-            string extenso = numeroBR.Extenso(1E30);
-            Assert.AreEqual("um nonilhão", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform2E30()
-        {
-            string extenso = numeroBR.Extenso(2E30);
-            Assert.AreEqual("dois nonilhões", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform1E33()
-        {
-            string extenso = numeroBR.Extenso(1E33);
-            Assert.AreEqual("um decilhão", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform2E33()
-        {
-            string extenso = numeroBR.Extenso(2E33);
-            Assert.AreEqual("dois decilhões", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform1E36()
-        {
-            string extenso = numeroBR.Extenso(1E36);
-            Assert.AreEqual("um undecilhão", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform2E36()
-        {
-            string extenso = numeroBR.Extenso(2E36);
-            Assert.AreEqual("dois undecilhões", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform1E39()
-        {
-            string extenso = numeroBR.Extenso(1E39);
-            Assert.AreEqual("um doudecilhão", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform2E39()
-        {
-            string extenso = numeroBR.Extenso(2E39);
-            Assert.AreEqual("dois doudecilhões", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform1E42()
-        {
-            string extenso = numeroBR.Extenso(1E42);
-            Assert.AreEqual("um tredecilhão", extenso);
-        }
-
-        [TestMethod]
-        public void shouldTransform2E42()
-        {
-            string extenso = numeroBR.Extenso(2E42);
-            Assert.AreEqual("dois tredecilhões", extenso);
         }
     }
 }
