@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CSharpBrasil\CSharpBrasil.csproj" />
+    <ProjectReference Include="..\CSharpBrasil\caelum-stella-csharp.csproj" />
   </ItemGroup>
 
   <ItemGroup>

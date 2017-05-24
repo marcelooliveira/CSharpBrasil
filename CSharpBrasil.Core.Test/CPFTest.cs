@@ -1,8 +1,8 @@
-using CSharpBrasil;
+using CaelumStellaCSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace CSharpBrasil.Core.Test
+namespace CaelumStellaCSharp.Test
 {
     [TestClass]
     public class CPFTest

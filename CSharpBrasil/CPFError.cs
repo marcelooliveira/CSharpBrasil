@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CSharpBrasil
+namespace CaelumStellaCSharp
 {
     public class CPFError
     {

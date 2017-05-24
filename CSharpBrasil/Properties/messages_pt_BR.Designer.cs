@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CSharpBrasil.Properties {
+namespace CaelumStellaCSharp.Properties {
     using System;
     using System.Reflection;
     
@@ -40,7 +40,7 @@ namespace CSharpBrasil.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CSharpBrasil.Properties.messages_pt_BR", typeof(messages_pt_BR).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CaelumStellaCSharp.Properties.messages_pt_BR", typeof(messages_pt_BR).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

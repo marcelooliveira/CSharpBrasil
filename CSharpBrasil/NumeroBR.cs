@@ -5,15 +5,15 @@ using System.Text;
 using System.Globalization;
 using System.Threading;
 
-namespace CSharpBrasil
+namespace CaelumStellaCSharp
 {
     public class NumeroBR
     {
         private readonly ResourceManager resourceManager;
         public NumeroBR()
         {
-            resourceManager = new ResourceManager(@"CSharpBrasil.Properties.Resources",
-                         System.Reflection.Assembly.Load(new System.Reflection.AssemblyName("CSharpBrasil")));
+            resourceManager = new ResourceManager(@"CaelumStellaCSharp.Properties.Resources",
+                         System.Reflection.Assembly.Load(new System.Reflection.AssemblyName("CaelumStellaCSharp")));
         }
 
         public string Extenso(double numeroOrigem)
@@ -309,8 +309,8 @@ namespace CSharpBrasil
         private static ResourceManagerHelper instance;
         private ResourceManagerHelper()
         {
-            resourceManager = new ResourceManager(@"CSharpBrasil.Properties.messages_pt_BR",
-             System.Reflection.Assembly.Load(new System.Reflection.AssemblyName("CSharpBrasil")));
+            resourceManager = new ResourceManager(@"CaelumStellaCSharp.Properties.messages_pt_BR",
+             System.Reflection.Assembly.Load(new System.Reflection.AssemblyName("CaelumStellaCSharp")));
         }
 
         public static ResourceManagerHelper Instance

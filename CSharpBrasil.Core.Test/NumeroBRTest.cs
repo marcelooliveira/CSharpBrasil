@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CSharpBrasil.Core.Test
+namespace CaelumStellaCSharp.Test
 {
     [TestClass]
     public class NumeroBRTest
