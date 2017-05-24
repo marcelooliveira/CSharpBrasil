@@ -309,7 +309,7 @@ namespace CSharpBrasil
         private static ResourceManagerHelper instance;
         private ResourceManagerHelper()
         {
-            resourceManager = new ResourceManager(@"CSharpBrasil.Properties.Resources",
+            resourceManager = new ResourceManager(@"CSharpBrasil.Properties.messages_pt_BR",
              System.Reflection.Assembly.Load(new System.Reflection.AssemblyName("CSharpBrasil")));
         }
 
