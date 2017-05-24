@@ -18,7 +18,7 @@ namespace CSharpBrasil.Core.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void NegativoDeveGerarErro()
+        public void shouldNotTransformNegativeDouble()
         {
             string extenso = numeroBR.Extenso(-1);
         }

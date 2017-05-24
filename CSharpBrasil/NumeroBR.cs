@@ -16,24 +16,16 @@ namespace CSharpBrasil
                          System.Reflection.Assembly.Load(new System.Reflection.AssemblyName("CSharpBrasil")));
         }
 
-        //public string Extenso(double numero)
-        //{
-        //    return Extenso((double)Math.Round(numero));
-        //}
-
         public string Extenso(double numeroOrigem)
         {
             numeroOrigem = Math.Round(numeroOrigem);
             double numero = numeroOrigem;
 
-            //if (numeroOrigem >= 1E21)
-            //    numero = Math.Truncate(numero / 1E21) * 1E21;
-
             double posicao = 1;
             Grupo grupo = null;
             do
             {
-                grupo = new Grupo((long)(numero % 1000), posicao, grupo);
+                grupo = new Grupo((long)(numero % (double)1000), posicao, grupo);
                 posicao++;
                 numero /= 1000;
 
@@ -75,12 +67,12 @@ namespace CSharpBrasil
     class Grupo
     {
         private const string NUMERO_NEGATIVO = "Número não pode ser negativo";
-        private readonly long _numero;
-        private readonly double _posicao;
-        private readonly Digito _digito;
-        private readonly Grupo _grupoFilho;
+        private readonly long numero;
+        private readonly double posicao;
+        private readonly Digito digito;
+        private readonly Grupo grupoFilho;
 
-        public double Posicao => _posicao;
+        public double Posicao => posicao;
 
         public Grupo(long numero, double posicao, Grupo grupoFilho)
         {
@@ -90,9 +82,9 @@ namespace CSharpBrasil
             }
             else
             {
-                _numero = numero;
-                _posicao = posicao;
-                _grupoFilho = grupoFilho;
+                this.numero = numero;
+                this.posicao = posicao;
+                this.grupoFilho = grupoFilho;
                 double posicaoDigito = 1;
                 Digito digito = null;
                 do
@@ -113,32 +105,32 @@ namespace CSharpBrasil
                     numero /= 10;
                 } while (numero > 0);
 
-                _digito = digito;
+                this.digito = digito;
             }
         }
 
         protected double ValorSomenteDoGrupo()
         {
-            return _digito.ValorTotal();
+            return digito.ValorTotal();
         }
 
         protected double ValorDosFilhos()
         {
-            if (_grupoFilho == null)
+            if (grupoFilho == null)
             {
                 return 0;
             }
             else
             {
-                return _grupoFilho.ValorTotal();
+                return grupoFilho.ValorTotal();
             }
         }
 
         public double ValorTotal()
         {
             double result = ValorSomenteDoGrupo();
-            if (_grupoFilho != null)
-                result += _grupoFilho.ValorTotal();
+            if (grupoFilho != null)
+                result += grupoFilho.ValorTotal();
             return result;
         }
 
@@ -148,46 +140,46 @@ namespace CSharpBrasil
 
             if (ValorSomenteDoGrupo() > 0)
                 result = this;
-            else if (_grupoFilho != null)
-                result = _grupoFilho.PrimeiroGrupoComValor();
+            else if (grupoFilho != null)
+                result = grupoFilho.PrimeiroGrupoComValor();
             return result;
         }
 
         public string Extenso()
         {
-            if (_grupoFilho == null)
-                return _digito.Extenso();
+            if (grupoFilho == null)
+                return digito.Extenso();
             else if (ValorSomenteDoGrupo() == 0)
             {
-                return _grupoFilho.Extenso();
+                return grupoFilho.Extenso();
             }
             else
             {
-                double valorGrupo = _digito.ValorTotal();
+                double valorGrupo = digito.ValorTotal();
                 string singularPlural = valorGrupo < 2 ? "singular" : "plural";
                 string nomeGrupo =
                     ResourceManagerHelper
                         .Instance
                         .ResourceManager
-                        .GetString(string.Format("Extenso1e{0}{1}", (_posicao - 1) * 3, singularPlural));
+                        .GetString(string.Format("Extenso1e{0}{1}", (posicao - 1) * 3, singularPlural));
 
-                double valorGrupoFilho = _grupoFilho.ValorTotal();
+                double valorGrupoFilho = grupoFilho.ValorTotal();
 
                 if (valorGrupoFilho == 0)
                 {
                     return string.Format("{0} {1}",
-                    _digito.Extenso(),
+                    digito.Extenso(),
                     nomeGrupo);
                 }
                 else
                 {
-                    Grupo proximoGrupoComValor = _grupoFilho.PrimeiroGrupoComValor();
+                    Grupo proximoGrupoComValor = grupoFilho.PrimeiroGrupoComValor();
                     string separador = proximoGrupoComValor.Posicao == 1 ? " e" : ",";
                     return string.Format("{0} {1}{2} {3}",
-                    _digito.Extenso(),
+                    digito.Extenso(),
                     nomeGrupo,
                     separador,
-                    _grupoFilho.Extenso());
+                    grupoFilho.Extenso());
                 }
             }
         }
@@ -195,17 +187,17 @@ namespace CSharpBrasil
 
     abstract class Digito
     {
-        protected readonly long _numero;
-        protected readonly double _posicao;
-        protected readonly Digito _digitoFilho;
+        protected readonly long numero;
+        protected readonly double posicao;
+        protected readonly Digito digitoFilho;
 
-        public long Numero { get { return _numero; } }
+        public long Numero { get { return numero; } }
 
         public Digito(long numero, double posicao, Digito digitoFilho)
         {
-            _numero = numero;
-            _posicao = posicao;
-            _digitoFilho = digitoFilho;
+            this.numero = numero;
+            this.posicao = posicao;
+            this.digitoFilho = digitoFilho;
         }
 
         public virtual string Extenso()
@@ -218,26 +210,26 @@ namespace CSharpBrasil
 
         protected double ValorSomenteDoDigito()
         {
-            return _numero * (int)Math.Pow(10, _posicao - 1);
+            return numero * (int)Math.Pow(10, posicao - 1);
         }
 
         protected double ValorDosFilhos()
         {
-            if (_digitoFilho == null)
+            if (digitoFilho == null)
             {
                 return 0;
             }
             else
             {
-                return _digitoFilho.ValorTotal();
+                return digitoFilho.ValorTotal();
             }
         }
 
         public double ValorTotal()
         {
             double result = ValorSomenteDoDigito();
-            if (_digitoFilho != null)
-                result += _digitoFilho.ValorTotal();
+            if (digitoFilho != null)
+                result += digitoFilho.ValorTotal();
             return result;
         }
 
@@ -251,7 +243,7 @@ namespace CSharpBrasil
 
         protected bool Plural
         {
-            get { return _numero > 1; }
+            get { return numero > 1; }
         }
     }
 
@@ -266,23 +258,23 @@ namespace CSharpBrasil
 
         public override string Extenso()
         {
-            if (_numero == 0)
+            if (numero == 0)
             {
-                return _digitoFilho.Extenso();
+                return digitoFilho.Extenso();
             }
-            else if (_numero == 1)
+            else if (numero == 1)
             {
-                return base.Extenso(ValorSomenteDoDigito() + _digitoFilho.Numero);
+                return base.Extenso(ValorSomenteDoDigito() + digitoFilho.Numero);
             }
             else
             {
-                if (_digitoFilho.Numero == 0)
+                if (digitoFilho.Numero == 0)
                     return base.Extenso(ValorSomenteDoDigito());
                 else
                     return
                         string.Format("{0} e {1}"
                         , base.Extenso()
-                        , _digitoFilho.Extenso());
+                        , digitoFilho.Extenso());
             }
         }
     }
@@ -298,7 +290,7 @@ namespace CSharpBrasil
             else
             {
                 string esteDigitoExtenso = string.Empty;
-                if (_numero == 1)
+                if (numero == 1)
                     esteDigitoExtenso = ResourceManagerHelper.Instance.ResourceManager.GetString("Extenso100mais");
                 else
                     esteDigitoExtenso = base.Extenso();
@@ -306,7 +298,7 @@ namespace CSharpBrasil
                 return
                     string.Format("{0} e {1}"
                     , esteDigitoExtenso
-                    , _digitoFilho.Extenso());
+                    , digitoFilho.Extenso());
             }
         }
     }
